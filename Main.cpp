@@ -3,7 +3,7 @@ using std::cout;
 
 int main()
 {
-	int i = 10;
+	int i = 100;
 
 	cout << i;
 }
