@@ -78,14 +78,65 @@ vector<vector<State>> ReadBoardFile(string path) {
 	return board;
 }
 
+/**
+ * Implementation of A* search algorithm
+ */
+vector<vector<State>> Search(vector<vector<State>> grid, int start[2], int goal[2])
+{
+
+	vector<vector<State>> solution{};
+
+	cout << "No path found! \n";
+
+	return solution;
+}
+
+// Calculate the manhattan distance
+int Heuristic(int x1, int y1, int x2, int y2) {
+	return (abs(x2 - x1) + abs(y2 - y1));
+}
+
+//Test Heuristic function
+void TestHeuristic() {
+	cout << "----------------------------------------------------------" << "\n";
+	cout << "Heuristic Function Test: ";
+	if (Heuristic(1, 2, 3, 4) != 4) {
+		cout << "failed" << "\n";
+		cout << "\n" << "Heuristic(1, 2, 3, 4) = " << Heuristic(1, 2, 3, 4) << "\n";
+		cout << "Correct result: 4" << "\n";
+		cout << "\n";
+	}
+	else if (Heuristic(2, -1, 4, -7) != 8) {
+		cout << "TestHeuristic Failed" << "\n";
+		cout << "\n" << "Heuristic(2, -1, 4, -7) = " << Heuristic(2, -1, 4, -7) << "\n";
+		cout << "Correct result: 8" << "\n";
+		cout << "\n";
+	}
+	else {
+		cout << "passed" << "\n";
+	}
+	cout << "----------------------------------------------------------" << "\n";
+}
+
 int main()
 {
 	//Path to input file
 	const string filePath = "C:/Users/oelhalawany/source/repos/Udacity-L1/InputFiles/InputBoard.txt";
+
 	//Define a board of ENUM State
 	vector<vector<State>> board;
+
+	//Start and goal for the grid (for A* Search)
+	int start[2] = { 0,0 };
+	int goal[2] = { 4,5 };
+
 	//Read board from input file and store it as enum State
 	board = ReadBoardFile(filePath);
-	//Pring baord in form of chars
-	PrintBoard(board);
+	
+	//Call A* Serach function
+	auto solution = Search(board, start, goal);
+
+	//Print board
+	PrintBoard(solution);
+
 }
