@@ -111,6 +111,7 @@ bool Compare(vector<int> node1, vector <int> node2)
  * Sort the two-dimensional vector of ints in descending order.
  */
 void CellSort(vector<vector<int>>* v) {
+    //Compare function will sort this list descendingly.
 	sort(v->begin(), v->end(), Compare);
 }
 
@@ -133,12 +134,12 @@ vector<vector<State>> Search(vector<vector<State>> grid, int init[2], int goal[2
 	//List of open nodes and grid are passed by reference to be changed by AddToOpen function
 	AddToOpen(x, y, g, h, open, grid);
 
-	// TODO: while open vector is non empty 
+	//while open vector is non empty 
 	while (open.empty() == false)
 	{
-		// TODO: Sort the open list using `CellSort`, and get the current node.
+		//Sort the open list descendingly using `CellSort`, and get the current node.
 		CellSort(&open);
-		// TODO: Get the x and y values from the current node,
+		//Get the x and y values from the current node,
 		auto current_node = open.back();
 		open.pop_back();
 		x = current_node[0];
@@ -147,7 +148,7 @@ vector<vector<State>> Search(vector<vector<State>> grid, int init[2], int goal[2
 		// and set grid[x][y] to kPath.
 		grid[x][y] = State::kPath;
 
-		// TODO: Check if you've reached the goal. If so, return grid.
+		//Check if you've reached the goal. If so, return grid.
 		if (x == goal[0] && y == goal[1])
 		{
 			return grid;
