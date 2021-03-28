@@ -473,10 +473,14 @@ int main()
 	//Read board from input file and store it as enum State
 	board = ReadBoardFile(filePath);
 	
+    //Print Borad
+    PrintBoard(board);
+    cout << "---------------------------------------------\n";
+
 	//Call A* Serach function
 	auto solution = Search(board, start, goal);
 
-	//Print board
+	//Print Path from start to goal
 	PrintBoard(solution);
 
 	/*** TESTS ***/
