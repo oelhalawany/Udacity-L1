@@ -178,14 +178,15 @@ vector<vector<State>> Search(vector<vector<State>> grid, int init[2], int goal[2
 	//Create a vector with solution of A* Search
 	vector<vector<State>> solution{};
 
-	//Create vector of open nodes
+	//Create vector of open nodes. Node formate {x,y,g,h}
 	vector<vector<int>> open{};
 
-	// Initialize the starting node.
+	//Initialize the starting node.
 	int x = init[0];
 	int y = init[1];
 	int g = 0;
 	int h = Heuristic(x, y, goal[0], goal[1]);
+
 	//List of open nodes and grid are passed by reference to be changed by AddToOpen function
 	AddToOpen(x, y, g, h, open, grid);
 
@@ -200,8 +201,10 @@ vector<vector<State>> Search(vector<vector<State>> grid, int init[2], int goal[2
 		x = current_node[0];
 		y = current_node[1];
 
+        //Check start node
         if (x == init[0] && y == init[1])
         {
+            //Set first node start position to kStart
             grid[x][y] = State::kStart;
         }
         else
