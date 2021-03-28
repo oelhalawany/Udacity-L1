@@ -32,7 +32,7 @@ string CellString(State cell)
             return "P"; //Path
             break;
 		default:
-			return "0"; //Empty Cell
+			return "O"; //Empty Cell
 			break;
 	}
 }
@@ -200,12 +200,20 @@ vector<vector<State>> Search(vector<vector<State>> grid, int init[2], int goal[2
 		x = current_node[0];
 		y = current_node[1];
 
-		// and set grid[x][y] to kPath.
-		grid[x][y] = State::kPath;
+        if (x == init[0] && y == init[1])
+        {
+            grid[x][y] = State::kStart;
+        }
+        else
+        {
+            // and set grid[x][y] to kPath.
+            grid[x][y] = State::kPath;
+        }
 
 		//Check if you've reached the goal. If so, return grid.
 		if (x == goal[0] && y == goal[1])
 		{
+            grid[x][y] = State::kFinish;
 			return grid;
 		}
 		else
@@ -469,10 +477,10 @@ int main()
 	PrintBoard(solution);
 
 	/*** TESTS ***/
-	TestHeuristic();
-	TestAddToOpen();
-	TestCompare();
-	TestSearch();
-    TestCheckValidCell();
-    TestExpandNeighbors();
+	//TestHeuristic();
+	//TestAddToOpen();
+	//TestCompare();
+	//TestSearch();
+    //TestCheckValidCell();
+    //TestExpandNeighbors();
 }
