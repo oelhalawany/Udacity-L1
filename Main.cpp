@@ -9,7 +9,7 @@ using std::vector;
 using std::cout;
 
 //Define ENUM class for states of the board cells
-enum class State { kEmpty, kObstacle, kClosed, kPath};
+enum class State { kEmpty, kObstacle, kClosed, kPath, kStart, kFinish };
 
 // directional deltas
 const int delta[4][2]{ {-1, 0}, {0, -1}, {1, 0}, {0, 1} };
@@ -20,10 +20,19 @@ string CellString(State cell)
 	switch (cell)
 	{
 		case State::kObstacle: 
-			return "X";
+			return "X"; //Obstacle
 			break;
+        case State::kStart:
+            return "S"; //Start Cell
+            break;
+        case State::kFinish:
+            return "F"; //Finish Cell
+            break;
+        case State::kPath:
+            return "P"; //Path
+            break;
 		default:
-			return "0";
+			return "0"; //Empty Cell
 			break;
 	}
 }
@@ -145,7 +154,7 @@ void ExpandNeighbors(const vector<int>& current, int goal[2], vector<vector<int>
     int g1 = current[2];
 
     //Loop through current node's potential neighbors.
-    for (int i = 0; i < 4;i++)
+    for (int i = 0; i<4; i++)
     {
         int x2 = x1 + delta[i][0]; // 0,0 1,0 2,0 3,0
         int y2 = y1 + delta[i][1]; // 0,1 1,1 2,1 3,1
@@ -155,7 +164,7 @@ void ExpandNeighbors(const vector<int>& current, int goal[2], vector<vector<int>
         {
             //Increment g value, compute h value, and add neighbor to open list.
             int g2 = g1 + 1;
-            int h2 = Heuristic(x2, y2, goal[1], goal[2]);
+            int h2 = Heuristic(x2, y2, goal[0], goal[1]);
             AddToOpen(x2, y2, g2, h2, openlist, grid);
         }
     }
@@ -201,8 +210,8 @@ vector<vector<State>> Search(vector<vector<State>> grid, int init[2], int goal[2
 		}
 		else
 		{
-			// If we're not done, expand search to current node's neighbors. This step will be completed in a later quiz.
 			// ExpandNeighbors
+            ExpandNeighbors(current_node, goal, open, grid);
 		}
 	}
 
@@ -391,6 +400,51 @@ void TestCheckValidCell() {
     }
     cout << "----------------------------------------------------------" << "\n";
 }
+void TestExpandNeighbors() {
+    cout << "----------------------------------------------------------" << "\n";
+    cout << "ExpandNeighbors Function Test: ";
+    vector<int> current{ 4, 2, 7, 3 };
+    int goal[2]{ 4, 5 };
+    vector<vector<int>> open{ {4, 2, 7, 3} };
+    vector<vector<int>> solution_open = open;
+    solution_open.push_back(vector<int>{3, 2, 8, 4});
+    solution_open.push_back(vector<int>{4, 3, 8, 2});
+    vector<vector<State>> grid{ {State::kClosed, State::kObstacle, State::kEmpty, State::kEmpty, State::kEmpty, State::kEmpty},
+                              {State::kClosed, State::kObstacle, State::kEmpty, State::kEmpty, State::kEmpty, State::kEmpty},
+                              {State::kClosed, State::kObstacle, State::kEmpty, State::kEmpty, State::kEmpty, State::kEmpty},
+                              {State::kClosed, State::kObstacle, State::kEmpty, State::kEmpty, State::kEmpty, State::kEmpty},
+                              {State::kClosed, State::kClosed, State::kEmpty, State::kEmpty, State::kObstacle, State::kEmpty} };
+    vector<vector<State>> solution_grid = grid;
+    solution_grid[3][2] = State::kClosed;
+    solution_grid[4][3] = State::kClosed;
+    ExpandNeighbors(current, goal, open, grid);
+    CellSort(&open);
+    CellSort(&solution_open);
+    if (open != solution_open) {
+        cout << "failed" << "\n";
+        cout << "\n";
+        cout << "Your open list is: " << "\n";
+        PrintVectorOfVectors(open);
+        cout << "Solution open list is: " << "\n";
+        PrintVectorOfVectors(solution_open);
+        cout << "\n";
+    }
+    else if (grid != solution_grid) {
+        cout << "failed" << "\n";
+        cout << "\n";
+        cout << "Your grid is: " << "\n";
+        PrintVectorOfVectors(grid);
+        cout << "\n";
+        cout << "Solution grid is: " << "\n";
+        PrintVectorOfVectors(solution_grid);
+        cout << "\n";
+    }
+    else {
+        cout << "passed" << "\n";
+    }
+    cout << "----------------------------------------------------------" << "\n";
+    return;
+}
 /*END TEST*/
 
 int main()
@@ -420,4 +474,5 @@ int main()
 	TestCompare();
 	TestSearch();
     TestCheckValidCell();
+    TestExpandNeighbors();
 }
