@@ -11,6 +11,9 @@ using std::cout;
 //Define ENUM class for states of the board cells
 enum class State { kEmpty, kObstacle, kClosed, kPath};
 
+// directional deltas
+const int delta[4][2]{ {-1, 0}, {0, -1}, {1, 0}, {0, 1} };
+
 //Read cell state and return character 
 string CellString(State cell)
 {
@@ -113,6 +116,37 @@ bool Compare(vector<int> node1, vector <int> node2)
 void CellSort(vector<vector<int>>* v) {
     //Compare function will sort this list descendingly.
 	sort(v->begin(), v->end(), Compare);
+}
+
+/**
+ * Check validity of cells on the grid
+ */
+bool CheckValidCell(int x, int y, const vector<vector<State>> &grid)
+{
+    if ((x >= 0 && x < grid.size())
+        && (y >= 0 && y < grid[0].size())
+        && grid[x][y] == State::kEmpty
+        )
+    {
+        return true;
+    }
+        return false;
+}
+
+/**
+ * Function to expand neighbors
+ */
+void ExpandNeighbors(const vector<int>& current, int goal[2], vector<vector<int>>& openlist, vector<vector<State>>& grid)
+{
+
+    // TODO: Get current node's data.
+
+  // TODO: Loop through current node's potential neighbors.
+
+    // TODO: Check that the potential neighbor's x2 and y2 values are on the grid and not closed.
+
+      // TODO: Increment g value, compute h value, and add neighbor to open list.
+
 }
 
 /**
@@ -317,6 +351,34 @@ void TestSearch() {
     }
     cout << "----------------------------------------------------------" << "\n";
 }
+void TestCheckValidCell() {
+    cout << "----------------------------------------------------------" << "\n";
+    cout << "CheckValidCell Function Test: ";
+    vector<vector<State>> grid{ {State::kClosed, State::kObstacle, State::kEmpty, State::kEmpty, State::kEmpty, State::kEmpty},
+                              {State::kClosed, State::kObstacle, State::kEmpty, State::kEmpty, State::kEmpty, State::kEmpty},
+                              {State::kClosed, State::kObstacle, State::kEmpty, State::kEmpty, State::kEmpty, State::kEmpty},
+                              {State::kClosed, State::kObstacle, State::kEmpty, State::kEmpty, State::kEmpty, State::kEmpty},
+                              {State::kClosed, State::kClosed, State::kEmpty, State::kEmpty, State::kObstacle, State::kEmpty} };
+
+    if (CheckValidCell(0, 0, grid)) {
+        cout << "failed" << "\n";
+        cout << "\n" << "Test grid is: " << "\n";
+        PrintVectorOfVectors(grid);
+        cout << "Cell checked: (0, 0)" << "\n";
+        cout << "\n";
+    }
+    else if (!CheckValidCell(4, 2, grid)) {
+        cout << "failed" << "\n";
+        cout << "\n" << "Test grid is: " << "\n";
+        PrintVectorOfVectors(grid);
+        cout << "Cell checked: (4, 2)" << "\n";
+        cout << "\n";
+    }
+    else {
+        cout << "passed" << "\n";
+    }
+    cout << "----------------------------------------------------------" << "\n";
+}
 /*END TEST*/
 
 int main()
@@ -345,4 +407,5 @@ int main()
 	TestAddToOpen();
 	TestCompare();
 	TestSearch();
+    TestCheckValidCell();
 }
