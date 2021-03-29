@@ -468,7 +468,7 @@ int main()
 
 	//Start and goal for the grid (for A* Search)
 	int start[2] = { 0,0 };
-	int goal[2] = { 4,5 };
+	int goal[2] = { 0,5 };
 
 	//Read board from input file and store it as enum State
 	board = ReadBoardFile(filePath);
