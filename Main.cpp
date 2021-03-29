@@ -225,7 +225,6 @@ vector<vector<State>> Search(vector<vector<State>> grid, int init[2], int goal[2
             ExpandNeighbors(current_node, goal, open, grid);
 		}
 	}
-
 	cout << "No path found! \n";
 	return solution;
 }
